@@ -9,6 +9,12 @@ const SimpleInput = (props) => {
 
   const nameInputIsValid = !enteredNameIsValid && enteredNameTouched;
 
+  let formIsValid = false;
+
+    if(enteredNameIsValid){
+      formIsValid = true;
+    }
+
   const nameChangeHandler = (event) => {
     console.log(event.target.value)
     setEnteredName(event.target.value);
@@ -43,7 +49,7 @@ const SimpleInput = (props) => {
         { nameInputIsValid && <p className='error-text'>Name must be valid </p> }
       </div>
       <div className="form-actions">
-        <button>Submit</button>
+        <button disabled={!formIsValid}>Submit</button>
       </div>
     </form>
   );

@@ -4,7 +4,8 @@ const SimpleInput = (props) => {
   const nameInputRef = useRef();
 
   const [enteredName, setEnteredName] = useState('');
-  const [enteredNameIsValid, setEnteredNameIsValid] = useState(true);
+  const [enteredNameIsValid, setEnteredNameIsValid] = useState(false);
+  const [enteredNameTouched, setEnteredNameTouched] = useState(false);
 
   const nameChangeHandler = (event) => {
     console.log(event.target.value)
@@ -13,6 +14,7 @@ const SimpleInput = (props) => {
 
   const formSubmissionHandler = (event) => {
     event.preventDefault();
+    setEnteredNameTouched(true);
 
     if (enteredName.trim() === ''){
 
@@ -29,14 +31,16 @@ const SimpleInput = (props) => {
     setEnteredName('');
   };
 
-  const nameInputClasses = enteredNameIsValid ? 'form-control' : 'form-control invalid';
+  const nameInputIsValid = !enteredNameIsValid && enteredNameTouched;
+
+  const nameInputClasses = nameInputIsValid ? 'form-control invalid' : 'form-control';
 
   return (
     <form onSubmit={formSubmissionHandler}>
       <div className={nameInputClasses}>
         <label htmlFor='name'>Your Name</label>
         <input ref={nameInputRef} type='text' id='name' onChange={nameChangeHandler} value={enteredName} />
-        { !enteredNameIsValid && <p className='error-text'>Name must be valid </p> }
+        { nameInputIsValid && <p className='error-text'>Name must be valid </p> }
       </div>
       <div className="form-actions">
         <button>Submit</button>
